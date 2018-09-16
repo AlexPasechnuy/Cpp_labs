@@ -1,0 +1,90 @@
+#pragma once
+
+#include <string>
+#include <vector>
+#include <iostream>
+#include <windows.h>
+#include <conio.h>
+
+class Menu{
+
+private:
+
+	HANDLE hConsole;
+
+	struct Cord
+	{
+		int _x;		//>
+		int _y;		//^
+	};
+
+	void Menu::cursorPositionSet(const Cord & cord)
+	{
+		COORD position = { cord._x, cord._y };
+		SetConsoleCursorPosition(hConsole, position);
+	}
+
+	Cord Menu::cursorPositionGet()
+	{
+		CONSOLE_SCREEN_BUFFER_INFO csbi;
+		GetConsoleScreenBufferInfo(hConsole, &csbi);
+		return { csbi.dwCursorPosition.X, csbi.dwCursorPosition.Y };
+	}
+
+	int Menu::movePointer(Cord begin)
+	{
+		bool exit = false;
+		Cord end = cursorPositionGet();
+		Cord cord = begin;
+		cursorPositionSet(begin);
+		
+
+		while (!exit)
+		{
+			int ch = _getch();
+			if (ch == 224)
+				ch = _getch();
+
+			switch (ch)
+			{
+			case 13:	
+				exit = true;	
+				break;			//нажата клавиша Enter
+			case 27:	
+				return -1;		//нажата клавиша Esc
+			case 72:
+				cord._y--;
+				cursorPositionSet(cord);
+				break;			// нажата клавиша вверх
+			case 80:
+				cord._y++;
+				cursorPositionSet(cord);
+				break;			// нажата клавиша вниз
+			}
+		}
+		system("cls");
+		return cord._y - begin._y;
+	};
+
+	Menu(){
+		hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	};
+
+public:
+
+	static Menu& getInstance(){//Singleton
+		static Menu menu;
+		return menu;
+	};
+
+	int Menu::menuOrgan(std::vector<std::string> menu)
+	{
+		Cord cord = cursorPositionGet();
+		for (int i = 0; menu[i] != ""; i++)
+		{
+			std::cout << menu[i] << '\n';
+		}
+		return movePointer(cord);
+	}
+
+};
