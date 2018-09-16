@@ -45,13 +45,13 @@ void FindResult::useClass()
 void FindResult::getData()
 {
 	cout << "Select data input way please:\n";
-	vector<string> giveMenu = { "Give from file", "Give from keyboard", "" };
+	vector<string> giveMenu = { "Give from file", "Give from keyboard"};
 	switch (Menu::getInstance().menuOrgan(giveMenu))
 	{
-	case 1:
+	case 0:
 		getFromFile();
 		break;
-	case 2:
+	case 1:
 		cout << "Enter your variables:\nx = ";
 		cin >> x;
 		cout << "n = ";
@@ -66,25 +66,30 @@ void FindResult::getFromFile()
 	ifstream fin;
 	fin.open("Input.txt");
 	vector<vector<double>> data;
-	vector<double> vecDob;
+	
 
 	vector<string> strVec;
 
 	int memb;
 	while (!fin.eof())
 	{
+		string str;
+		vector<double> vecDob;
+
 		for (int i = 0; i < 2; i++)
 		{
 			fin >> memb;
 			vecDob.push_back(memb);
+			str += std::to_string(memb) + " ";
 		}
-		string str(vecDob.begin(), vecDob.end());
+		
 		strVec.push_back(str);
 		data.push_back(vecDob);
 	}
 	cout << "Select your x and n\n";
-	int choise = Menu::getInstance().menuOrgan(strVec) - 1;
-	vecDob = data[choise];
+
+	int choise = Menu::getInstance().menuOrgan(strVec);
+	vector<double> vecDob = data[choise];
 	x = vecDob[0];
 	n = vecDob[1];
 	fin.close();
@@ -120,15 +125,15 @@ void FindResult::negativeX()
 
 void FindResult::show()
 {
-	vector<string> is = { "Yes", "No", "" };
+	vector<string> is = { "Yes", "No"};
 	cout << "Your result is " << sum << endl
 		<< "Do you want to save it to the file?\n";
 	switch (Menu::getInstance().menuOrgan(is))
 	{
-	case 2:
+	case 0:
 		returnToFile();
 		break;
-	case 3:
+	case 1:
 		break;
 	}
 
@@ -136,11 +141,12 @@ void FindResult::show()
 	cout << "Do you want to use the program again?\n";
 	switch (Menu::getInstance().menuOrgan(is))
 	{
-	case 1:
+	case 0:
 		break;
-	case 2:
+	case 1:
 		isExit = true;
-		cout << "Thanks for using my product)";
+		cout << "Thanks for using my product)\n"
+		<< "With love, Alex Pasechnuy\n";
 		break;
 	}
 }
