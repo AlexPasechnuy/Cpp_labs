@@ -6,6 +6,8 @@
 #include <windows.h>
 #include <conio.h>
 
+using namespace std;
+
 class Menu{
 
 private:
@@ -80,12 +82,12 @@ public:
 		return menu;
 	};
 
-	int Menu::menuOrgan(std::vector<std::string> menu)
+	int Menu::menuOrgan(vector<string> menu)
 	{
 		Cord cord = cursorPositionGet();
-		for (std::string str: menu)
+		for (string str: menu)
 		{
-			std::cout << str << '\n';
+			cout << str << '\n';
 		}
 		return movePointer(cord);
 	}

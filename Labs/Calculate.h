@@ -80,7 +80,7 @@ void FindResult::getFromFile()
 		{
 			fin >> memb;
 			vecDob.push_back(memb);
-			str += std::to_string(memb) + " ";
+			str += to_string(memb) + " ";
 		}
 		
 		strVec.push_back(str);
@@ -98,13 +98,14 @@ void FindResult::getFromFile()
 void FindResult::returnToFile()
 {
 	ofstream fout;
-	fout.open("Output.txt");
+	fout.open("Output.txt", ios_base::app);
 	fout << sum << endl;
 	fout.close();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void FindResult::positiveX()
 {
+	sum = 0;
 	for (int i = 0; i < n; i++)
 	{
 		sum += (x - 1) / (i + 1);
@@ -113,6 +114,7 @@ void FindResult::positiveX()
 
 void FindResult::negativeX()
 {
+	sum = 0;
 	for (int i = 1; i <= n; i++)
 	{
 		for (int j = 1; j <= n; j++)
