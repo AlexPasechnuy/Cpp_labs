@@ -101,7 +101,9 @@ void FindResult::returnToFile()
 	fout.open("Output.txt", ios_base::app);
 	fout << sum << endl;
 	fout.close();
+
 }
+
 
 void FindResult::positiveX()
 {
