@@ -6,8 +6,6 @@
 #include <windows.h>
 #include <conio.h>
 
-using namespace std;
-
 class Menu{
 
 private:
@@ -77,17 +75,18 @@ private:
 
 public:
 
-	static Menu& getInstance(){//Singleton
+	static Menu& getInstance()	//Singleton
+	{
 		static Menu menu;
 		return menu;
 	};
 
-	int Menu::menuOrgan(vector<string> menu)
+	int Menu::menuOrgan(std::vector<std::string> menu)
 	{
 		Cord cord = cursorPositionGet();
-		for (string str: menu)
+		for (std::string str: menu)
 		{
-			cout << str << '\n';
+			std::cout << str << '\n';
 		}
 		return movePointer(cord);
 	}

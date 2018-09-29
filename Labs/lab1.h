@@ -62,7 +62,7 @@ void Lab1::getData()
 void Lab1::getFromFile()
 {
 	std::ifstream fin;
-	fin.open("Input.txt");
+	fin.open("InputLab1.txt");
 	std::vector<std::vector<double>> data;
 	
 
@@ -96,7 +96,7 @@ void Lab1::getFromFile()
 void Lab1::returnToFile()
 {
 	std::ofstream fout;
-	fout.open("Output.txt", std::ios_base::app);
+	fout.open("OutputLab1.txt", std::ios_base::app);
 	fout << sum << std::endl;
 	fout.close();
 

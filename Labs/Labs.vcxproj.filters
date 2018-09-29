@@ -11,10 +11,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Calculate.h">
+    <ClInclude Include="Menu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Menu.h">
+    <ClInclude Include="lab1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Lab2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
