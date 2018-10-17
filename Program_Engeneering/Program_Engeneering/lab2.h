@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "Lab1.h"
+#include "tools.h"
 
 class Lab2
 {
@@ -13,10 +13,14 @@ private:
 	double sum;
 	std::vector<double> results;
 	bool isExit = false;
+	std::vector<std::vector<double>> data;
+	std::vector<std::string> strVec;
 public:
 	void getData();
 	void useLab2();
+	void fileWork();
 	void getFromFile();
+	void getFromKeyboard();
 	void returnToFile();
 	void positiveX();
 	void negativeX();
@@ -26,12 +30,7 @@ void Lab2::useLab2()
 {
 	while (isExit == false)
 	{
-		getData();		//input
-		if (stepSize <= 0 || (maxX - x) <= 0)
-		{
-			std::cout << "Incorrect input!!!" << std::endl;
-			return;
-		}
+		getData();
 		for (x; x <= maxX; x += stepSize)
 		{
 			if (x >= 0)
@@ -64,30 +63,52 @@ void Lab2::getData()
 	switch (Menu::getInstance().menuOrgan(giveMenu))
 	{
 	case 0:
-		getFromFile();
+		fileWork();
 		break;
 	case 1:
-		std::cout << "n = ";
-		std::cin >> n;
-		std::cout << "\nstep = ";
-		std::cin >> stepSize;
-		std::cout << "\nStart and maximum value of your x :";
-		std::cin >> x >> maxX;
+		getFromKeyboard();
 		break;
 	}
 	system("cls");
+}
+
+void Lab2::fileWork()
+{
+	getFromFile();
+	while (true)
+	{
+		system("cls");
+		std::cout << "Select your start and maximum value of x ,n and step size:\n";
+		int choise = Menu::getInstance().menuOrgan(strVec);
+		std::vector<double> vecDob = data[choise];
+		x = vecDob[0];	//interval start
+		maxX = vecDob[1];	//interval end
+		n = vecDob[2];
+		stepSize = vecDob[3];
+
+		int minN;
+		if (x < 0)
+			minN = 2;
+		else
+			minN = 1;
+		if (maxX >= x && stepSize > 0 && n >= minN)
+			return;
+		if (maxX < x)
+			std::cout << "!Your interval has negative direction!" << std::endl;
+		if (stepSize <= 0)
+			std::cout << "!Incorrect step size!" << std::endl;
+		if (n < minN)
+			std::cout << "!Your n is too small for this x!" << std::endl;
+		system("pause");
+	}
 }
 
 void Lab2::getFromFile()
 {
 	std::ifstream fin;
 	fin.open("InputLab2.txt");
-	std::vector<std::vector<double>> data;
-
-
-	std::vector<std::string> strVec;
-
 	int memb;
+	strVec.clear();
 	while (!fin.eof())
 	{
 		std::string str;
@@ -103,16 +124,38 @@ void Lab2::getFromFile()
 		strVec.push_back(str);
 		data.push_back(vecDob);
 	}
-	std::cout << "Select your start and maximum value of x ,n and step size:\n";
-
-	int choise = Menu::getInstance().menuOrgan(strVec);
-	std::vector<double> vecDob = data[choise];
-	x = vecDob[0];	//interval start
-	maxX = vecDob[1];	//interval end
-	n = vecDob[2];
-	stepSize = vecDob[3];
-
 	fin.close();
+}
+
+void Lab2::getFromKeyboard()
+{
+	while (true)
+	{
+		input("start value of your x :", x);
+		input("maximum value of your x :", maxX);
+		if (x <= maxX)
+			break;
+		std::cout << "Incorrect input: interval must have positive direction!" << std::endl;
+	}
+	while (true)
+	{
+		input("step = ", stepSize);
+		if (stepSize > 0)
+			break;
+		std::cout << "Incorrect input: step must be greater than 0!" << std::endl;
+	}
+	int minN;
+	if (x < 0)
+		minN = 2;
+	else
+		minN = 1;
+	while (true)
+	{
+		input("n = ", n);
+		if (n >= minN)
+			break;
+		std::cout << "This n is too small for your x!" << std::endl;
+	}
 }
 
 void Lab2::positiveX()

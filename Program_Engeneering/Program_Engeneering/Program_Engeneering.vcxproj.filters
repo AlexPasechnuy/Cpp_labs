@@ -29,7 +29,7 @@
     <ClInclude Include="lab2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="template.h">
+    <ClInclude Include="tools.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

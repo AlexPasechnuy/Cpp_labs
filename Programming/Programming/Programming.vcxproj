@@ -70,6 +70,7 @@
     <ClInclude Include="lab1.h" />
     <ClInclude Include="lab2.h" />
     <ClInclude Include="menu.h" />
+    <ClInclude Include="tools.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

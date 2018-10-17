@@ -4,8 +4,6 @@
 
 //сделать большой цикл для нескольких вычислений, не выходя из приложения
 //доделать файловый ввод/вывод
-//желательно не выпускать курсор за границы меню
-
 #include <iostream>
 #include <vector>
 #include "Lab1.h"
@@ -32,6 +30,9 @@ int main()
 			find.useLab2();
 		}break;
 		case 2:
+			std::cout << "Thanks for using my product)\n"
+				<< "With love, Alex Pasechnuy\n";
+			system("pause");
 			return 0;
 			break;
 		}
