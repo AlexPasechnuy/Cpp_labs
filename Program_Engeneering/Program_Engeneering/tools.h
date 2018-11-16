@@ -6,15 +6,11 @@ template <typename T>
 
 void input(const char * prompt, T& var)
 {
-	for (;;)
+	/*std::cout << prompt;*/
+	while (!(std::cout << prompt) || !(std::cin >> var) || std::cin.peek() != '\n')
 	{
-		std::cout << prompt << std::flush;
-		if ((std::cin >> var).good()) return;
-		if (std::cin.fail())
-		{
-			std::cin.clear();
-			std::cout << "Wrong input, try again\n";
-		}
-		std::cin.ignore(std::numeric_limits<std::size_t>::max(), '\n');
+		std::cin.clear();
+		while (std::cin.get() != '\n');
+		std::cout << "Input error! Retry input" << std::endl;
 	}
 }

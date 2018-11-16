@@ -16,9 +16,13 @@ int main()
 	{
 		system("cls");
 		std::cout << "Select your lab:" << std::endl;
-		std::vector<std::string> menu = { "Lab 1", "Lab 2" , "Exit"};
+		std::vector<std::string> menu = { "Lab 1", "Lab 2" };
 		switch (Menu::getInstance().menuOrgan(menu))
 		{
+		case -1:
+		{
+			isExit = true;
+		}break;
 		case 0:
 		{
 			Lab1 find;
@@ -29,11 +33,10 @@ int main()
 			Lab2 find;
 			find.useLab2();
 		}break;
-		case 2:
-		{
-			isExit = true;
-		}break;
 		}
 	}
+	std::cout << "Thanks for using my product)\n"
+		<< "With love, Alex Pasechnuy\n";
+	system("pause");
 	return 0;
 }

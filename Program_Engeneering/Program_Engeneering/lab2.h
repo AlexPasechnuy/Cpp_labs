@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <fstream>
 #include "tools.h"
 
 class Lab2
@@ -12,68 +13,93 @@ private:
 	double maxX;
 	double sum;
 	std::vector<double> results;
-	bool isExit = false;
 	std::vector<std::vector<double>> data;
 	std::vector<std::string> strVec;
+	std::string filename;
 public:
-	void getData();
+	bool getData();
 	void useLab2();
-	void fileWork();
+	void calculations();
+	bool fileWork();
 	void getFromFile();
 	void getFromKeyboard();
 	void returnToFile();
 	void positiveX();
 	void negativeX();
+	void openFiles();
+	void openBasic();
+	void openOther();
+	void fillFiles();
+	void createFile();
+	bool checkFile(std::string);
 };
 
 void Lab2::useLab2()
 {
-	while (isExit == false)
-	{
-		getData();
-		for (x; x <= maxX; x += stepSize)
-		{
-			if (x >= 0)
-				positiveX();
-			else
-				negativeX();
-			std::cout << "x = " << x << "; sum = " << sum << std::endl;
-			results.push_back(sum);
-		}
+	bool isExit = false;
+		if (getData() == false)
+			return;
+		calculations();
 		returnToFile();
 		system("cls");
-		std::cout << "Do you want to use the program again?\n";
-		switch (Menu::getInstance().menuOrgan({ "Yes", "No" }))
+}
+
+void Lab2::calculations()
+{
+	for (x; x <= maxX; x += stepSize)
+	{
+		if (x >= 0)
+			positiveX();
+		else
+			negativeX();
+		std::cout << "x = " << x << "; sum = " << sum << std::endl;
+		results.push_back(sum);
+	}
+}
+
+bool Lab2::getData()
+{
+	bool isExit = false;
+	while (isExit == false)
+	{
+		std::cout << "Select data input way please:\n";
+		std::vector<std::string> giveMenu = { "Give from file", "Give from keyboard" };
+		switch (Menu::getInstance().menuOrgan(giveMenu))
 		{
+		case -1:
+			return false;
+			break;
 		case 0:
+			isExit = fileWork();
 			break;
 		case 1:
+			getFromKeyboard();
 			isExit = true;
-			std::cout << "Thanks for using my product)\n"
-				<< "With love, Alex Pasechnuy\n";
+			break;
+		}
+		system("cls");
+	}
+	return true;
+}
+
+bool Lab2::fileWork()
+{
+	while (true)
+	{
+		system("cls");
+		switch (Menu::getInstance().menuOrgan({ "Open file", "Create file" }))
+		{
+		case -1:
+			return false;
+			break;
+		case 0:
+			openFiles();
+			break;
+		case 1:
+			createFile();
 			break;
 		}
 	}
-}
-
-void Lab2::getData()
-{
-	std::cout << "Select data input way please:\n";
-	std::vector<std::string> giveMenu = { "Give from file", "Give from keyboard" };
-	switch (Menu::getInstance().menuOrgan(giveMenu))
-	{
-	case 0:
-		fileWork();
-		break;
-	case 1:
-		getFromKeyboard();
-		break;
-	}
-	system("cls");
-}
-
-void Lab2::fileWork()
-{
 	getFromFile();
 	while (true)
 	{
@@ -92,7 +118,7 @@ void Lab2::fileWork()
 		else
 			minN = 1;
 		if (maxX >= x && stepSize > 0 && n >= minN)
-			return;
+			return true;
 		if (maxX < x)
 			std::cout << "!Your interval has negative direction!" << std::endl;
 		if (stepSize <= 0)
@@ -106,7 +132,7 @@ void Lab2::fileWork()
 void Lab2::getFromFile()
 {
 	std::ifstream fin;
-	fin.open("InputLab2.txt");
+	fin.open(filename);
 	int memb;
 	strVec.clear();
 	while (!fin.eof())
@@ -125,6 +151,111 @@ void Lab2::getFromFile()
 		data.push_back(vecDob);
 	}
 	fin.close();
+}
+
+void Lab2::openFiles()
+{
+	while (true)
+	{
+		std::cout << "Open basic file or select directory?:" << std::endl;
+		switch (Menu::getInstance().menuOrgan({ "Basic file", "Select directory" }))
+		{
+		case -1:
+			return;
+			break;
+		case 0:
+			openBasic();
+			break;
+		case 1:
+			openOther();
+			break;
+		}
+	}
+}
+
+void Lab2::openBasic()
+{
+	while (true)
+	{
+		filename = "InputLab2.txt";
+		std::ifstream fin;
+		fin.open(filename);
+		if (fin.is_open() == true)
+			break;
+		std::cout << "Basic file not found! Choose your own file or create new" << std::endl;
+		system("pause");
+	}
+	//offer to fill file if it's empty
+}
+
+void Lab2::openOther()
+{
+	std::string path;
+	std::cout << "Enter full path to your file:";
+	std::getline (std::cin, path);
+	std::ifstream fin;
+	fin.open(path);
+	if (fin.is_open() == false)
+	{
+		if (checkFile(path) == true)
+		{
+			
+			std::cout << "Work with custom file";
+			return;
+		}
+	}
+	std::cout << "Can't find this file!" << std::endl 
+		<< "Tap 'esc' to exit or another button to try again" << std::endl;
+	int ch = _getch();
+	if( ch == 27)
+		return;
+}
+
+void Lab2::fillFiles()
+{
+
+}
+
+void Lab2::createFile()
+{
+	std::string filename;
+	while (true)
+	{
+		std::cout << "Enter full path of file or write only name to create in basic directory:" << std::endl;
+		std::cin >> filename;
+		std::ifstream checkPlace;
+		std::ofstream create;
+		std::ifstream checkFile;
+		checkPlace.open(filename);
+		if (checkPlace.is_open() == true)
+		{
+			std::cout << "This file already created!" << std::endl
+				<< "Please, try again!" << std::endl;
+		}
+		else
+		{
+			create.open(filename);
+			checkFile.open(filename);
+			if (!checkFile.is_open())
+			{
+				std::cout << "Failed to create file!" << std::endl
+					<< "Please, try again!" << std::endl;
+			}
+			else
+			{
+				std::cout << "File created!" << std::endl;
+				checkPlace.close();
+				create.close();
+				checkFile.close();
+				return;
+			}
+		}
+	}
+}
+
+bool Lab2::checkFile(std::string filename)
+{
+	return true;
 }
 
 void Lab2::getFromKeyboard()

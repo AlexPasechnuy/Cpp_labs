@@ -43,8 +43,8 @@ private:
 		while (!exit)
 		{
 			int ch = _getch();
-			if (ch == 224)
-				ch = _getch();
+			/*if (ch == 224)
+				ch = _getch();*/
 
 			switch (ch)
 			{

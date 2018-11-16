@@ -90,5 +90,4 @@ public:
 		}
 		return movePointer(cord);
 	}
-
 };

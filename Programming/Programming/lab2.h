@@ -109,7 +109,7 @@ public:
 	}
 };
 
-class IndTask
+class IndTask1
 {
 private:
 	double n;
@@ -309,7 +309,7 @@ public:
 			{
 			case 0:
 			{
-				IndTask ex;
+				IndTask1 ex;
 				ex.useIndTask();
 			}break;
 			case 1:

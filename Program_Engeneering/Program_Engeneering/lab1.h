@@ -31,6 +31,8 @@ void Lab1::useLab1()
 	while (isExit == false)
 	{
 		getData();
+		if (isExit == true)
+			return;
 		if (x >= 0)
 			positiveX();
 		else
@@ -46,6 +48,10 @@ void Lab1::getData()
 	std::vector<std::string> giveMenu = { "Give from file", "Give from keyboard" };
 	switch (Menu::getInstance().menuOrgan(giveMenu))
 	{
+	case -1:
+		system("cls");
+		isExit = true;
+		return;
 	case 0:
 		getFromFile();
 		break;
@@ -85,8 +91,9 @@ void Lab1::getFromFile()
 		data.push_back(vecDob);
 	}
 	std::cout << "Select your x and n\n";
-
 	int choise = Menu::getInstance().menuOrgan(strVec);
+	if (choise == -1)
+		return;
 	std::vector<double> vecDob = data[choise];
 	x = vecDob[0];
 	n = vecDob[1];
