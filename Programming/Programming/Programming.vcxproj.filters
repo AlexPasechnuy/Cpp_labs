@@ -41,5 +41,8 @@
     <ClInclude Include="lab5.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="lab6.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

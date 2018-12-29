@@ -77,7 +77,6 @@ bool Lab2::getData()
 			isExit = true;
 			break;
 		}
-		system("cls");
 	}
 	return true;
 }
@@ -209,11 +208,6 @@ void Lab2::openOther()
 	int ch = _getch();
 	if( ch == 27)
 		return;
-}
-
-void Lab2::fillFiles()
-{
-
 }
 
 void Lab2::createFile()
